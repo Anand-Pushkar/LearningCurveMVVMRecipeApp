@@ -40,7 +40,7 @@ constructor(
             loading.value = true
 
             resetSearchState()
-            delay(10000)
+            delay(1000)
 
             val result = repository.search(
                 token = token,

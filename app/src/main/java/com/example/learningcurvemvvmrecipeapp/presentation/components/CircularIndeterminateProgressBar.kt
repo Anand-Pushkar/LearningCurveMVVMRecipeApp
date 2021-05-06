@@ -20,57 +20,19 @@ fun CircularIndeterminateProgressBar(
     isDisplayed: Boolean
 ) {
     if (isDisplayed) {
-
-        WithConstraints(
-            modifier = Modifier.fillMaxSize()
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            val constraints = if(minWidth < 600.dp){ // porrait
-                myDecoupledConstraints(0.3f)
-            }
-            else{ // landscape
-                myDecoupledConstraints(0.7f)
-            }
-
-            ConstraintLayout(
-                modifier = Modifier.fillMaxSize(),
-                constraintSet = constraints
-            ) {
-
-                CircularProgressIndicator(
-                    modifier = Modifier.layoutId("progressBar"),
-                    color = MaterialTheme.colors.primary
-                )
-
-                val loading = "Loading..."
-                Text(
-                    text = loading,
-                    style = TextStyle(
-                        color = Color.Black,
-                        fontSize = TextUnit.Companion.Sp(15)
-                    ),
-                    modifier = Modifier.layoutId("text")
-                )
-            }
-        }
-    }
-}
-
-private fun myDecoupledConstraints(verticalBias: Float): ConstraintSet {
-    return ConstraintSet {
-        val guideline = createGuidelineFromTop(verticalBias)
-        val progressBar = createRefFor("progressBar")
-        val text = createRefFor("text")
-
-        constrain(progressBar){
-            top.linkTo(guideline)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
-        }
-
-        constrain(text){
-            top.linkTo(progressBar.bottom)
-            start.linkTo(parent.start)
-            end.linkTo(parent.end)
+            val progressBar = createRef()
+            val topGuideline = createGuidelineFromTop(0.3f)
+            CircularProgressIndicator(
+                modifier = Modifier.constrainAs(progressBar){
+                    top.linkTo(topGuideline)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+                color = MaterialTheme.colors.primary
+            )
         }
     }
 }
