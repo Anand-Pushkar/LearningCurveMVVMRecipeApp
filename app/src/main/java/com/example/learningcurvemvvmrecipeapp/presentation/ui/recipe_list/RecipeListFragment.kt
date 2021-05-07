@@ -24,10 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.learningcurvemvvmrecipeapp.presentation.components.CircularIndeterminateProgressBar
-import com.example.learningcurvemvvmrecipeapp.presentation.components.FoodCategoryChip
-import com.example.learningcurvemvvmrecipeapp.presentation.components.RecipeCard
-import com.example.learningcurvemvvmrecipeapp.presentation.components.SearchAppBar
+import com.example.learningcurvemvvmrecipeapp.presentation.components.*
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,20 +55,22 @@ class RecipeListFragment : Fragment() {
                         onChangeCategoryScrollPosition = viewModel::onChangeCategoryScrollPosition
                     )
 
-                    Box(
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        LazyColumn {
-                            itemsIndexed(
-                                items = recipes
-                            ) { index, recipe ->
-                                RecipeCard(recipe = recipe, onClick = {})
-                            }
-                        }
-                        CircularIndeterminateProgressBar(
-                            isDisplayed = loading
-                        )
-                    }
+                    PulsingDemo()
+
+//                    Box(
+//                        modifier = Modifier.fillMaxSize()
+//                    ) {
+//                        LazyColumn {
+//                            itemsIndexed(
+//                                items = recipes
+//                            ) { index, recipe ->
+//                                RecipeCard(recipe = recipe, onClick = {})
+//                            }
+//                        }
+//                        CircularIndeterminateProgressBar(
+//                            isDisplayed = loading
+//                        )
+//                    }
                 }
             }
         }
