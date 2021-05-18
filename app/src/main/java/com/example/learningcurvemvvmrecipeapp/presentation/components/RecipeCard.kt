@@ -11,9 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
-import com.example.learningcurvemvvmrecipeapp.R
 import com.example.learningcurvemvvmrecipeapp.domain.model.Recipe
 import com.example.learningcurvemvvmrecipeapp.util.DEFAULT_RECIPE_IMAGE
 import com.example.learningcurvemvvmrecipeapp.util.loadPicture

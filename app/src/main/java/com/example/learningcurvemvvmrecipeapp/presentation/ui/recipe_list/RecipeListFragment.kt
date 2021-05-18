@@ -14,6 +14,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.learningcurvemvvmrecipeapp.presentation.components.*
+import com.example.learningcurvemvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.ACTIVE
+import com.example.learningcurvemvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.IDLE
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +58,26 @@ class RecipeListFragment : Fragment() {
                         onChangeCategoryScrollPosition = viewModel::onChangeCategoryScrollPosition
                     )
 
-                    PulsingDemo()
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(top = 20.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        val state = remember{ mutableStateOf(IDLE) }
+
+                        AnimationHeartButton(
+                            modifier = Modifier,
+                            buttonState = state,
+                            onToggle = {
+                                state.value = if(state.value == IDLE) ACTIVE else IDLE
+                            }
+                        )
+                    }
+
+
+//                    PulsingDemo()
 
 //                    Box(
 //                        modifier = Modifier.fillMaxSize()
