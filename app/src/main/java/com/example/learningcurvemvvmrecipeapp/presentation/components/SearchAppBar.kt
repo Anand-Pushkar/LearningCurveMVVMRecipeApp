@@ -2,16 +2,15 @@ package com.example.learningcurvemvvmrecipeapp.presentation.components
 
 import android.util.Log
 import androidx.compose.foundation.ScrollableRow
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -30,11 +29,12 @@ fun SearchAppBar(
     scrollPosition: Float,
     selectedCategory: FoodCategory?,
     onSelectedCategoryChanged: (String) -> Unit,
-    onChangeCategoryScrollPosition: (Float) -> Unit
+    onChangeCategoryScrollPosition: (Float) -> Unit,
+    onToggleTheme: () -> Unit
 ) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color.White,
+        color = MaterialTheme.colors.surface,
         elevation = 8.dp,
     ) {
         Column {
@@ -65,9 +65,26 @@ fun SearchAppBar(
                             softKeyboardController?.hideSoftwareKeyboard()
                         }
                     },
-                    textStyle = TextStyle(color = MaterialTheme.colors.onSurface),
+                    textStyle = MaterialTheme.typography.button,
                     backgroundColor = MaterialTheme.colors.surface,
                 )
+                ConstraintLayout(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                ) {
+                    val menu = createRef()
+                    IconButton(
+                        onClick = onToggleTheme,
+                        modifier = Modifier
+                            .constrainAs(menu){
+                                end.linkTo(parent.end)
+                                top.linkTo(parent.top)
+                                bottom.linkTo(parent.bottom)
+                            }
+                    ) {
+                        Icon(Icons.Filled.MoreVert)
+                    }
+                }
             }
 
             val scrollState = rememberScrollState()

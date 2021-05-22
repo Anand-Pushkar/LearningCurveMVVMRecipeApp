@@ -35,9 +35,6 @@ fun loadPicture(
             }
         })
 
-    // test it
-    // loadPicture(drawable = defaultImage)
-
     // get network image
     Glide.with(AmbientContext.current)
         .asBitmap()
