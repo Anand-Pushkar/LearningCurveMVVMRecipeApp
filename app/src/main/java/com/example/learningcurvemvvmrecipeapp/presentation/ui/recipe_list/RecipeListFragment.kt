@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -31,6 +32,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.example.learningcurvemvvmrecipeapp.presentation.BaseApplication
 import com.example.learningcurvemvvmrecipeapp.presentation.components.*
@@ -39,6 +41,7 @@ import com.example.learningcurvemvvmrecipeapp.presentation.components.HeartAnima
 import com.example.learningcurvemvvmrecipeapp.presentation.theme.AppTheme
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,106 +52,167 @@ class RecipeListFragment : Fragment() {
 
     val viewModel: RecipeListViewModel by viewModels()
 
+    @ExperimentalMaterialApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                AppTheme(
-                    darkTheme = application.isDark.value
-                ) {
-                    val recipes = viewModel.recipes.value
-                    val query = viewModel.query.value
-                    val selectedCategory = viewModel.selectedCategory.value
-                    val loading = viewModel.loading.value
 
-                    Scaffold(
-                        topBar = {
-                            SearchAppBar(
-                                query = query,
-                                onQueryChanged = viewModel::onQueryChanged,
-                                onExecuteSearch = viewModel::newSearch,
-                                scrollPosition = viewModel.categoryScrollPosition,
-                                selectedCategory = selectedCategory,
-                                onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
-                                onChangeCategoryScrollPosition = viewModel::onChangeCategoryScrollPosition,
-                                onToggleTheme = {
-                                    application.toggleTheme()
-                                }
-                            )
-                        },
-                        bottomBar = {
-                                    MyBottomBar()
-                        },
-                        drawerContent = {
-                                        MyDrawer()
-                        },
+//                val isShowing = remember { mutableStateOf(false) }
 
-                        ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .background(color = MaterialTheme.colors.background)
-                        ) {
-                            if (loading) {
-                                LoadingRecipeListShimmer(imageHeight = 250.dp)
-                            } else {
-                                LazyColumn {
-                                    itemsIndexed(
-                                        items = recipes
-                                    ) { index, recipe ->
-                                        RecipeCard(recipe = recipe, onClick = {})
-                                    }
-                                }
+                val snackbarHostState = remember { SnackbarHostState() }
+                Column {
+                    Button(
+                        onClick = {
+                            lifecycleScope.launch{
+                                snackbarHostState.showSnackbar(
+                                    message = "Hey look a snackbar",
+                                    actionLabel = "Hide",
+                                    duration = SnackbarDuration.Short
+                                )
                             }
-                            CircularIndeterminateProgressBar(
-                                isDisplayed = loading,
-                                verticalBias = 0.3f
-                            )
                         }
-
+                    ) {
+                        Text(text = "Show snackbar")
                     }
                 }
+
+                DecoupledSnackbarDemo(snackbarHostState = snackbarHostState)
+
+//                SnackbarDemo(
+//                    isShowing =  isShowing.value,
+//                    onHideSnackbar = {
+//                        isShowing.value = false
+//                    }
+//                )
+
+//                AppTheme(
+//                    darkTheme = application.isDark.value
+//                ) {
+//                    val recipes = viewModel.recipes.value
+//                    val query = viewModel.query.value
+//                    val selectedCategory = viewModel.selectedCategory.value
+//                    val loading = viewModel.loading.value
+//
+//                    Scaffold(
+//                        topBar = {
+//                            SearchAppBar(
+//                                query = query,
+//                                onQueryChanged = viewModel::onQueryChanged,
+//                                onExecuteSearch = viewModel::newSearch,
+//                                scrollPosition = viewModel.categoryScrollPosition,
+//                                selectedCategory = selectedCategory,
+//                                onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
+//                                onChangeCategoryScrollPosition = viewModel::onChangeCategoryScrollPosition,
+//                                onToggleTheme = {
+//                                    application.toggleTheme()
+//                                }
+//                            )
+//                        },
+//
+//                        ) {
+//                        Box(
+//                            modifier = Modifier
+//                                .fillMaxSize()
+//                                .background(color = MaterialTheme.colors.background)
+//                        ) {
+//                            if (loading) {
+//                                LoadingRecipeListShimmer(imageHeight = 250.dp)
+//                            } else {
+//                                LazyColumn {
+//                                    itemsIndexed(
+//                                        items = recipes
+//                                    ) { index, recipe ->
+//                                        RecipeCard(recipe = recipe, onClick = {})
+//                                    }
+//                                }
+//                            }
+//                            CircularIndeterminateProgressBar(
+//                                isDisplayed = loading,
+//                                verticalBias = 0.3f
+//                            )
+//                        }
+//
+//                    }
+//                }
+
             }
         }
     }
 }
 
+@ExperimentalMaterialApi
 @Composable
-fun MyBottomBar(
-    //navigationController: NavController
+fun DecoupledSnackbarDemo(
+    snackbarHostState: SnackbarHostState
 ){
-    BottomNavigation(
-        elevation = 12.dp
+    ConstraintLayout(
+        modifier = Modifier.fillMaxSize()
     ) {
-        BottomNavigationItem(
-            icon = { Icon(Icons.Default.BrokenImage) },
-            selected = false,
-            onClick = {
-                //navigationController.navigate()
+        val snackbar = createRef() // this will create a reference we can use
+        SnackbarHost(
+            modifier = Modifier.constrainAs(snackbar){
+                bottom.linkTo(parent.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            },
+            hostState = snackbarHostState,
+            snackbar = {
+                Snackbar(
+                    action = {
+                        TextButton(
+                            onClick = {
+                                snackbarHostState.currentSnackbarData?.dismiss()
+                            }
+                        ) {
+                            Text(
+                                text = snackbarHostState
+                                    .currentSnackbarData?.actionLabel?:
+                                    "",
+                                style = TextStyle(color = Color.White)
+                            )
+                        }
+                    }
+                ) {
+                    Text(snackbarHostState
+                        .currentSnackbarData?.message?: "")
+                }
             }
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Default.Search) },
-            selected = true,
-            onClick = {}
-        )
-        BottomNavigationItem(
-            icon = { Icon(Icons.Default.AccountBalanceWallet) },
-            selected = false,
-            onClick = {}
         )
     }
 }
 
 @Composable
-fun MyDrawer(){
-    Column() {
-        Text("Item1")
-        Text("Item2")
-        Text("Item3")
-        Text("Item4")
-        Text("Item5")
+fun SnackbarDemo(
+    isShowing: Boolean,
+    onHideSnackbar: () -> Unit
+){
+    if(isShowing){
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            val snackbar = createRef() // this will create a reference we can use
+            Snackbar(
+                modifier = Modifier.constrainAs(snackbar){
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                },
+                action = {
+                    Text(
+                        text = "Hide",
+                        modifier = Modifier.clickable(
+                            onClick = onHideSnackbar,
+                        ),
+                        style = MaterialTheme.typography.h5
+                    )
+                }
+            ) {
+                Text(text = "Hey look a snackbar!")
+            }
+        }
     }
 }
+
