@@ -1,8 +1,8 @@
-package com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions
+package com.example.learningcurvemvvmrecipeapp.presentation.components.util
 
 import androidx.compose.animation.core.*
-import com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions.ShimmerAnimationDefinitions.ShimmerAnimationState.END
-import com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions.ShimmerAnimationDefinitions.ShimmerAnimationState.START
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.ShimmerAnimationDefinitions.ShimmerAnimationState.END
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.ShimmerAnimationDefinitions.ShimmerAnimationState.START
 
 class ShimmerAnimationDefinitions(
     private val widthPx: Float,

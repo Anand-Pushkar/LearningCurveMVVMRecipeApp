@@ -9,9 +9,9 @@ import androidx.compose.ui.layout.WithConstraints
 import androidx.compose.ui.platform.AmbientDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions.ShimmerAnimationDefinitions
-import com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions.ShimmerAnimationDefinitions.ShimmerAnimationState.END
-import com.example.learningcurvemvvmrecipeapp.presentation.components.AnimationDefinitions.ShimmerAnimationDefinitions.ShimmerAnimationState.START
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.ShimmerAnimationDefinitions
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.ShimmerAnimationDefinitions.ShimmerAnimationState.END
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.ShimmerAnimationDefinitions.ShimmerAnimationState.START
 
 @Composable
 fun LoadingRecipeListShimmer(
