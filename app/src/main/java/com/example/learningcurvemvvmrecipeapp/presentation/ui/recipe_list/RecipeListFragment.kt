@@ -72,6 +72,7 @@ class RecipeListFragment : Fragment() {
                     val selectedCategory = viewModel.selectedCategory.value
                     val loading = viewModel.loading.value
                     val scaffoldState = rememberScaffoldState()
+                    val page = viewModel.page.value
 
                     Scaffold(
                         topBar = {
@@ -112,13 +113,18 @@ class RecipeListFragment : Fragment() {
                                 .fillMaxSize()
                                 .background(color = MaterialTheme.colors.background)
                         ) {
-                            if (loading) {
+                            if (loading && recipes.isEmpty()) {
+                                // we are not showing shimmer for new page only for brand new search
                                 LoadingRecipeListShimmer(imageHeight = 250.dp)
                             } else {
                                 LazyColumn {
                                     itemsIndexed(
                                         items = recipes
                                     ) { index, recipe ->
+                                        viewModel.onChangeRecipeScrollPosition(index) //tracking scroll position
+                                        if ((index + 1) >= (page * PAGE_SIZE) && !loading){
+                                            viewModel.nextPage()
+                                        }
                                         RecipeCard(recipe = recipe, onClick = {})
                                     }
                                 }
