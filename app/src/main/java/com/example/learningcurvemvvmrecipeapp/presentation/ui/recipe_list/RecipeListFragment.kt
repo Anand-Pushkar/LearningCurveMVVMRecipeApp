@@ -1,47 +1,30 @@
 package com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.ScrollableRow
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalanceWallet
-import androidx.compose.material.icons.filled.BrokenImage
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.savedinstancestate.savedInstanceState
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush.Companion.linearGradient
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import com.example.learningcurvemvvmrecipeapp.presentation.BaseApplication
 import com.example.learningcurvemvvmrecipeapp.presentation.components.*
-import com.example.learningcurvemvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.ACTIVE
-import com.example.learningcurvemvvmrecipeapp.presentation.components.HeartAnimationDefinition.HeartButtonState.IDLE
 import com.example.learningcurvemvvmrecipeapp.presentation.components.util.SnackbarController
 import com.example.learningcurvemvvmrecipeapp.presentation.theme.AppTheme
-import com.example.learningcurvemvvmrecipeapp.util.TAG
+import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.RecipeListEvent.NewSearchEvent
+import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.RecipeListEvent.NextPageEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -91,7 +74,7 @@ class RecipeListFragment : Fragment() {
                                             )
                                         }
                                     } else {
-                                        viewModel.newSearch()
+                                        viewModel.onTriggerEvent(NewSearchEvent)
                                     }
                                 },
                                 scrollPosition = viewModel.categoryScrollPosition,
@@ -123,7 +106,7 @@ class RecipeListFragment : Fragment() {
                                     ) { index, recipe ->
                                         viewModel.onChangeRecipeScrollPosition(index) //tracking scroll position
                                         if ((index + 1) >= (page * PAGE_SIZE) && !loading){
-                                            viewModel.nextPage()
+                                            viewModel.onTriggerEvent(NextPageEvent)
                                         }
                                         RecipeCard(recipe = recipe, onClick = {})
                                     }
