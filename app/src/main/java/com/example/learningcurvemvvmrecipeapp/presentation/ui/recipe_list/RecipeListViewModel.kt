@@ -95,6 +95,8 @@ constructor(
         // Must retrieve each page of results.
         val results: MutableList<Recipe> = mutableListOf()
         for(p in 1..page.value){
+
+            // api request
             val result = repository.search(
                 token = token,
                 page = p,
@@ -115,6 +117,7 @@ constructor(
         resetSearchState()
         delay(1000)
 
+        // api request
         val result = repository.search(
             token = token,
             page = 1,

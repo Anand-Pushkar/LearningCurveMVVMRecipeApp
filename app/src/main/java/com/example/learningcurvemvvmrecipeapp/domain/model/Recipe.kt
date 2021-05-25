@@ -1,7 +1,7 @@
 package com.example.learningcurvemvvmrecipeapp.domain.model
 
 data class Recipe(
-    val id: Int? = null,
+    val id: Int? = null, // should not be null
     val title: String? = null,
     val publisher: String? = null,
     val featuredImage: String? = null,
