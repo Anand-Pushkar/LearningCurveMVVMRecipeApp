@@ -39,7 +39,7 @@ fun RecipeList(
     ) {
         if (loading && recipes.isEmpty()) {
             // we are not showing shimmer for new page only for brand new search
-            LoadingRecipeListShimmer(imageHeight = 250.dp)
+            LoadingRecipeListShimmer(imageHeight = 250.dp, repetition = 5)
         } else {
             LazyColumn {
                 itemsIndexed(

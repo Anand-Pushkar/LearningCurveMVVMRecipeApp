@@ -80,7 +80,9 @@ class RecipeFragment : Fragment() {
                         Box(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            if (loading && recipe == null) Text(text = "LOADING...")
+                            if (loading && recipe == null){
+                                LoadingRecipeListShimmer(imageHeight = 260.dp, lines = 3)
+                            }
                             else recipe?.let {
                                 if (it.id == 1) { // create a fake error
                                     snackbarController.getScope().launch {

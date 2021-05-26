@@ -16,7 +16,9 @@ import com.example.learningcurvemvvmrecipeapp.presentation.components.util.Shimm
 @Composable
 fun LoadingRecipeListShimmer(
     imageHeight: Dp,
-    padding: Dp = 16.dp
+    padding: Dp = 16.dp,
+    lines: Int = 1,
+    repetition: Int = 1
 ){
     WithConstraints() {
 
@@ -52,14 +54,15 @@ fun LoadingRecipeListShimmer(
             cardShimmerTranslateAnim[cardAnimationDefinitions.yShimmerPropKey]
 
         ScrollableColumn {
-            repeat(5){
+            repeat(repetition){
                 ShimmerRecipeCardItem(
                     colors = colors,
                     cardHeight = imageHeight,
                     xShimmer = xCardShimmer,
                     yShimmer = yCardShimmer,
                     padding = padding,
-                    gradientWidth = cardAnimationDefinitions.gradientWidth
+                    gradientWidth = cardAnimationDefinitions.gradientWidth,
+                    lines = lines
                 )
             }
         }
