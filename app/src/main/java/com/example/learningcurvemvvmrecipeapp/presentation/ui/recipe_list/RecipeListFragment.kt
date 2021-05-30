@@ -40,15 +40,18 @@ class RecipeListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
 
+                val recipes = viewModel.recipes.value
+                val query = viewModel.query.value
+                val selectedCategory = viewModel.selectedCategory.value
+                val loading = viewModel.loading.value
+                val scaffoldState = rememberScaffoldState()
+                val page = viewModel.page.value
+
                 AppTheme(
-                    darkTheme = application.isDark.value
+                    darkTheme = application.isDark.value,
+                    displayProgressBar = loading,
+                    scaffoldState = scaffoldState
                 ) {
-                    val recipes = viewModel.recipes.value
-                    val query = viewModel.query.value
-                    val selectedCategory = viewModel.selectedCategory.value
-                    val loading = viewModel.loading.value
-                    val scaffoldState = rememberScaffoldState()
-                    val page = viewModel.page.value
 
                     Scaffold(
                         topBar = {
@@ -56,9 +59,8 @@ class RecipeListFragment : Fragment() {
                                 query = query,
                                 onQueryChanged = viewModel::onQueryChanged,
                                 onExecuteSearch = {
-                                    if (viewModel.selectedCategory
-                                            .value?.value == "Milk"
-                                    ) {
+                                    if (viewModel.selectedCategory.value?.value == "Milk"
+                                    ) { // create a fake error
                                         snackbarController.getScope().launch {
                                             snackbarController.showSnackbar(
                                                 scaffoldState = scaffoldState,
@@ -70,10 +72,9 @@ class RecipeListFragment : Fragment() {
                                         viewModel.onTriggerEvent(NewSearchEvent)
                                     }
                                 },
-                                scrollPosition = viewModel.categoryScrollPosition,
+                                categories = getAllFoodCategories(),
                                 selectedCategory = selectedCategory,
                                 onSelectedCategoryChanged = viewModel::onSelectedCategoryChanged,
-                                onChangeCategoryScrollPosition = viewModel::onChangeCategoryScrollPosition,
                                 onToggleTheme = {
                                     application.toggleTheme()
                                 }

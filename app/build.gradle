@@ -1,3 +1,13 @@
+import dependencies.AnnotationProcessing
+import dependencies.InstrumentationTest
+import dependencies.Jetbrains
+import dependencies.Square
+import dependencies.UnitTest
+import dependencies.Version
+import dependencies.AndroidX
+import dependencies.Google
+import dependencies.Glide
+
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
@@ -6,17 +16,20 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion Version.compileSdk
 
     defaultConfig {
-        applicationId "com.example.learningcurvemvvmrecipeapp"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        applicationId "com.codingwithmitch.food2forkcompose"
+        minSdkVersion Version.minSdk
+        targetSdkVersion Version.targetSdk
+        versionCode Version.versionCode
+        versionName Version.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        compose true
     }
 
     buildTypes {
@@ -30,72 +43,73 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Version.jvmTarget
         useIR = true
     }
     composeOptions {
-        def kotlin_compiler_version = "1.4.21"
+        def kotlin_compiler_version = Version.kotlin
         kotlinCompilerVersion kotlin_compiler_version
 
-        def kotlin_compiler_extension_version = "1.0.0-alpha09"
+        def kotlin_compiler_extension_version = Version.kotlin_compiler_extension
         kotlinCompilerExtensionVersion kotlin_compiler_extension_version
     }
-    buildFeatures {
-        compose true
-        viewBinding true
+    packagingOptions {
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation AndroidX.core_ktx
+    implementation AndroidX.app_compat
+    implementation AndroidX.constraint_layout
+    implementation AndroidX.ui_tooling
+    implementation AndroidX.nav_fragment_ktx // will remove later
+    implementation AndroidX.nav_ui_ktx // will remove later
+    implementation AndroidX.compose_ui
+    implementation AndroidX.compose_foundation
+    implementation AndroidX.runtime_livedata
+    implementation AndroidX.runtime_rxjava2
+    implementation AndroidX.compose_material
+    implementation AndroidX.compose_icons_core
+    implementation AndroidX.compose_icons_extended
+    implementation AndroidX.navigation_compose
+    implementation AndroidX.navigation_hilt
+    implementation AndroidX.room_runtime
+    implementation AndroidX.room_ktx
+    implementation AndroidX.datastore
+    //implementation AndroidX.hilt_lifecycle_viewmodel
+    implementation AndroidX.hilt_navigation_fragment
+    implementation AndroidX.hilt_work
 
-    def androidx_ui = "1.0.0-alpha07"
-    implementation "androidx.ui:ui-tooling:$androidx_ui"
+    implementation Google.material
+    implementation Google.hilt_android
 
-    // Compose
-    def compose = "1.0.0-alpha09"
-    implementation "androidx.compose.ui:ui:$compose"
-    implementation "androidx.compose.foundation:foundation:$compose"
-    implementation "androidx.compose.runtime:runtime-livedata:$compose"
-    implementation "androidx.compose.runtime:runtime-rxjava2:$compose"
-    implementation "androidx.compose.material:material:$compose"
-    implementation "androidx.compose.material:material-icons-core:$compose"
-    implementation "androidx.compose.material:material-icons-extended:$compose"
+    implementation Glide.glide
 
-    implementation 'androidx.fragment:fragment-ktx:1.3.0'
+    implementation Jetbrains.kotlin_stdlib
 
-    // Navigation support Kotlin
-    def nav_version = "2.3.4"
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation Square.retrofit
+    implementation Square.retrofit_gson
+    implementation Square.okHttp
+    implementation Square.leak_canary
 
-    // Retrofit
-    def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    kapt AnnotationProcessing.hilt_compiler
+    kapt AnnotationProcessing.glide_compiler
+    kapt AnnotationProcessing.room_compiler
 
-    // Hilt
-    def hilt_version = "2.33-beta"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    // TESTING
+    testImplementation UnitTest.jupiter_api
+    testImplementation UnitTest.jupiter_params
+    testRuntimeOnly UnitTest.jupiter_engine
 
-    // Hilt lifecycle
-    def hilt_lifecycle = "1.0.0-beta01"
-    implementation "androidx.hilt:hilt-navigation-fragment:$hilt_lifecycle"
-    implementation "androidx.hilt:hilt-work:$hilt_lifecycle"
-    kapt "androidx.hilt:hilt-compiler:$hilt_lifecycle"
+    // Mock web server
+    testImplementation UnitTest.mock_web_server
+    testImplementation UnitTest.okHttp
 
-    // Glide
-    def glide = "4.12.0"
-    implementation "com.github.bumptech.glide:glide:$glide"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    // compose testing
+    implementation InstrumentationTest.compose_ui
 
 }
+

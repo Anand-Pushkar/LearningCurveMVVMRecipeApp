@@ -38,6 +38,7 @@ fun RecipeView(
             image?.let { img ->
                 // put the image in Image composable
                 Image(
+                    contentDescription = null,
                     bitmap = img.asImageBitmap(),
                     modifier = Modifier
                         .fillMaxWidth()

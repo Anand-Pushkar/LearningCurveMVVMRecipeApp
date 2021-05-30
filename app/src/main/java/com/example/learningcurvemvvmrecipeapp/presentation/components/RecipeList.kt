@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ScaffoldState
@@ -80,16 +81,6 @@ fun RecipeList(
                 }
             }
         }
-        CircularIndeterminateProgressBar(
-            isDisplayed = loading,
-            verticalBias = 0.3f
-        )
-        DefaultSnackbar(
-            snackbarHostState = scaffoldState.snackbarHostState,
-            onDismiss = {
-                scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-            },
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+
     }
 }

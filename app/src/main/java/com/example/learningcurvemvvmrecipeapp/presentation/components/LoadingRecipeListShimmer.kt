@@ -2,6 +2,8 @@ package com.example.learningcurvemvvmrecipeapp.presentation.components
 
 import androidx.compose.animation.transition
 import androidx.compose.foundation.ScrollableColumn
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -20,7 +22,7 @@ fun LoadingRecipeListShimmer(
     lines: Int = 1,
     repetition: Int = 1
 ){
-    WithConstraints() {
+    BoxWithConstraints() {
 
         val cardWidthPx = with(AmbientDensity.current){
             ((maxWidth - (padding*2)).toPx())
@@ -53,8 +55,8 @@ fun LoadingRecipeListShimmer(
         val yCardShimmer =
             cardShimmerTranslateAnim[cardAnimationDefinitions.yShimmerPropKey]
 
-        ScrollableColumn {
-            repeat(repetition){
+        LazyColumn{
+            items(repetition){
                 ShimmerRecipeCardItem(
                     colors = colors,
                     cardHeight = imageHeight,

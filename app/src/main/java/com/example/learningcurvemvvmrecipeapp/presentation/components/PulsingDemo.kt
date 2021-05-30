@@ -40,6 +40,7 @@ fun PulsingDemo(){
         horizontalArrangement = Arrangement.Center
     ) {
         Image(
+            contentDescription = null,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .height(pulseMagnitude.dp)

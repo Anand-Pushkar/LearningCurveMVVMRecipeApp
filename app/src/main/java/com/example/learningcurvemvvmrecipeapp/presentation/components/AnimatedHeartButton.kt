@@ -59,10 +59,12 @@ private fun HeartButton(
 ){
     if (buttonState.value == ACTIVE){
         loadPicture(drawable = R.drawable.heart_red).value?.let { image ->
+
             Image(
                 bitmap = image.asImageBitmap(),
+                contentDescription = null,
                 modifier = Modifier
-                    .clickable(onClick = onToggle, indication = null)
+                    .clickable(onClick = onToggle)
                     .width(state[heartSize])
                     .height(state[heartSize])
             )
@@ -72,8 +74,9 @@ private fun HeartButton(
         loadPicture(drawable = R.drawable.heart_grey).value?.let { image ->
             Image(
                 bitmap = image.asImageBitmap(),
+                contentDescription = null,
                 modifier = Modifier
-                    .clickable(onClick = onToggle, indication = null)
+                    .clickable(onClick = onToggle)
                     .width(state[heartSize])
                     .height(state[heartSize])
             )

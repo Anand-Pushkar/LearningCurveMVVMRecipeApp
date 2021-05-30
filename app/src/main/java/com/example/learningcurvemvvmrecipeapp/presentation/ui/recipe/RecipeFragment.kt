@@ -71,7 +71,9 @@ class RecipeFragment : Fragment() {
 
 
                 AppTheme(
-                    darkTheme = application.isDark.value
+                    darkTheme = application.isDark.value,
+                    displayProgressBar = loading,
+                    scaffoldState = scaffoldState
                 ) {
                     Scaffold(
                         scaffoldState = scaffoldState,
@@ -98,22 +100,9 @@ class RecipeFragment : Fragment() {
                                     )
                                 }
                             }
-                            CircularIndeterminateProgressBar(
-                                isDisplayed = loading,
-                                verticalBias = 0.3f
-                            )
-                            DefaultSnackbar(
-                                snackbarHostState = scaffoldState.snackbarHostState,
-                                onDismiss = {
-                                    scaffoldState.snackbarHostState.currentSnackbarData?.dismiss()
-                                },
-                                modifier = Modifier.align(Alignment.BottomCenter)
-                            )
                         }
                     }
-
                 }
-
             }
         }
     }
