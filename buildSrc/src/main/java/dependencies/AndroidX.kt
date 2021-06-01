@@ -9,8 +9,8 @@ object AndroidX {
   const val ui_tooling = "androidx.ui:ui-tooling:${Version.androidx_ui}"
 
   // we will remove these 2 dependencies later when building the compose-only nav system
-  const val nav_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Version.nav_component}"
-  const val nav_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Version.nav_component}"
+  // const val nav_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Version.nav_component}"
+  // const val nav_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Version.nav_component}"
 
   const val compose_ui = "androidx.compose.ui:ui:${Version.compose}"
   const val compose_foundation = "androidx.compose.foundation:foundation:${Version.compose}"
