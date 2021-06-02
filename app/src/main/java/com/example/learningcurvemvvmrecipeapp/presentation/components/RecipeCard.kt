@@ -38,7 +38,7 @@ fun RecipeCard(
 
                 image?.let { img ->
                     Image(
-                        contentDescription = null,
+                        contentDescription = "Recipe Featured Image",
                         bitmap = img.asImageBitmap(),
                         modifier = Modifier
                             .fillMaxWidth()

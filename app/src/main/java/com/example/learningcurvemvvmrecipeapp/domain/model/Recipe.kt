@@ -1,5 +1,8 @@
 package com.example.learningcurvemvvmrecipeapp.domain.model
 
+import java.util.*
+
+// core buisness model, every field is very important
 data class Recipe(
     val id: Int, // should not be null
     val title: String,
@@ -8,6 +11,6 @@ data class Recipe(
     val rating: Int,
     val sourceUrl: String,
     val ingredients: List<String> = listOf(),
-    val dateAdded: String,
-    val dateUpdated: String,
+    val dateAdded: Date,
+    val dateUpdated: Date,
 )
