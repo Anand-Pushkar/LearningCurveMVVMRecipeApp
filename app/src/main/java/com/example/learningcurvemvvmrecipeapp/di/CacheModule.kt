@@ -3,6 +3,7 @@ package com.example.learningcurvemvvmrecipeapp.di
 import androidx.room.Room
 import com.example.learningcurvemvvmrecipeapp.cache.RecipeDao
 import com.example.learningcurvemvvmrecipeapp.cache.database.AppDatabase
+import com.example.learningcurvemvvmrecipeapp.cache.model.RecipeEntityMapper
 import com.example.learningcurvemvvmrecipeapp.presentation.BaseApplication
 import dagger.Module
 import dagger.Provides
@@ -28,6 +29,11 @@ object CacheModule {
     @Provides
     fun provideRecipeDao(app: AppDatabase): RecipeDao{
         return app.recipeDao()
+    }
+
+    @Singleton
+    @Provides fun provideCacheRecipeMapper(): RecipeEntityMapper{
+        return RecipeEntityMapper()
     }
 
 }
