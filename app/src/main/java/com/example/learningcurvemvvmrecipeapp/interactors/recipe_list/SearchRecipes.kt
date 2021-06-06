@@ -1,5 +1,6 @@
 package com.example.learningcurvemvvmrecipeapp.interactors.recipe_list
 
+import android.util.Log
 import com.example.learningcurvemvvmrecipeapp.cache.RecipeDao
 import com.example.learningcurvemvvmrecipeapp.cache.model.RecipeEntityMapper
 import com.example.learningcurvemvvmrecipeapp.domain.data.DataState
@@ -8,6 +9,7 @@ import com.example.learningcurvemvvmrecipeapp.network.RecipeService
 import com.example.learningcurvemvvmrecipeapp.network.model.RecipeDtoMapper
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.PAGE_SIZE
 import com.example.learningcurvemvvmrecipeapp.util.RECIPE_PAGINATION_PAGE_SIZE
+import com.example.learningcurvemvvmrecipeapp.util.TAG
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -29,7 +31,7 @@ class SearchRecipes(
             // just to show pagination and progress bar, the api is fast
             delay(1000)
 
-            // TODO("Check if there is internet connection")
+            // ("Check if there is internet connection")
             // #1 get the recipes from network
             val recipes = getRecipesFromNetwork(
                 token = token,
@@ -40,6 +42,7 @@ class SearchRecipes(
             // #2 insert recipes into cache
             recipeDao.insertRecipes(entityMapper.fromDomainList(recipes))
 
+            // query cache
             // #3 query the cache
             val cacheResult = if(query.isBlank()){
                 recipeDao.getAllRecipes(
@@ -56,10 +59,11 @@ class SearchRecipes(
 
             // #4 emit List<Recipe> from the cache
             val list = entityMapper.toDomainList(cacheResult)
-            DataState.success(list)
+            emit(DataState.success(list))
 
 
         }catch (e: Exception){
+            Log.e(TAG, "execute: ${e.message}")
             emit(DataState.error<List<Recipe>>(e.message?: "Unknown error"))
         }
     }

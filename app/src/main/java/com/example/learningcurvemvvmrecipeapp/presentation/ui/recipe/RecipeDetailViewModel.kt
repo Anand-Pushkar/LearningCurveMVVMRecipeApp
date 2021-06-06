@@ -7,13 +7,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.learningcurvemvvmrecipeapp.domain.model.Recipe
+import com.example.learningcurvemvvmrecipeapp.interactors.recipe_details.GetRecipe
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe.RecipeEvent.GetRecipeEvent
-import com.example.learningcurvemvvmrecipeapp.repository.RecipeRepository
+import com.example.learningcurvemvvmrecipeapp.presentation.ui.util.DialogQueue
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -23,7 +25,7 @@ const val STATE_KEY_RECIPE = "state.key.recipeId"
 class RecipeDetailViewModel
 @Inject
 constructor(
-    private val repository: RecipeRepository,
+    private val getRecipe: GetRecipe,
     @Named("auth_token") private val token: String,
     private val state: SavedStateHandle,
 ): ViewModel() {
@@ -31,6 +33,7 @@ constructor(
     val recipe: MutableState<Recipe?> = mutableStateOf(null)
     val loading = mutableStateOf(false)
     val onLoad: MutableState<Boolean> = mutableStateOf(false)
+    val dialogQueue = DialogQueue()
 
     init {
         // restore if process dies
@@ -57,20 +60,20 @@ constructor(
         }
     }
 
-    private suspend fun getRecipe(id: Int){
-        loading.value = true
+    private fun getRecipe(id: Int){
+        getRecipe.execute(id, token).onEach { dataState ->
+            loading.value = dataState.loading
 
-        delay(1000)
+            dataState.data?.let { data ->
+                recipe.value = data
+                state.set(STATE_KEY_RECIPE, data.id)
+            }
 
-        // api request
-        val recipe = repository.get(
-            token = token,
-            id = id
-        )
-        this.recipe.value = recipe
-
-        state.set(STATE_KEY_RECIPE, recipe.id)
-        loading.value = false
+            dataState.error?.let { error ->
+                Log.e(TAG, "getRecipe: ${error}")
+                dialogQueue.appendErrorMessage("Error", error)
+            }
+        }.launchIn(viewModelScope)
     }
 
 }

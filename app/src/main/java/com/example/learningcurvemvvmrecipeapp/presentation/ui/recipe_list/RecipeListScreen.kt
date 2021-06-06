@@ -28,11 +28,13 @@ fun RecipeListScreen(
     val loading = viewModel.loading.value
     val scaffoldState = rememberScaffoldState()
     val page = viewModel.page.value
+    val dialogQueue = viewModel.dialogQueue
 
     AppTheme(
         darkTheme = isDarkTheme,
         displayProgressBar = loading,
-        scaffoldState = scaffoldState
+        scaffoldState = scaffoldState,
+        dialogQueue = dialogQueue.queue.value
     ) {
 
         Scaffold(
@@ -56,6 +58,7 @@ fun RecipeListScreen(
                 scaffoldState.snackbarHostState
             }
         ) {
+            Log.d(TAG, "RecipeListScreen#: loading = $loading")
             RecipeList(
                 loading = loading,
                 recipes = recipes,

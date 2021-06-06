@@ -1,6 +1,7 @@
 package com.example.learningcurvemvvmrecipeapp.presentation.components
 
 import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import com.example.learningcurvemvvmrecipeapp.presentation.components.util.Snack
 import com.example.learningcurvemvvmrecipeapp.presentation.navigation.Screen
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.PAGE_SIZE
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.RecipeListEvent
+import com.example.learningcurvemvvmrecipeapp.util.TAG
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -38,6 +40,7 @@ fun RecipeList(
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background)
     ) {
+        Log.d(TAG, "RecipeList: loading = $loading")
         if (loading && recipes.isEmpty()) {
             // we are not showing shimmer for new page only for brand new search
             LoadingRecipeListShimmer(imageHeight = 250.dp, repetition = 5)
