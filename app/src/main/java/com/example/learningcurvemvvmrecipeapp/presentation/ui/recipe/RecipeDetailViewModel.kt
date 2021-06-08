@@ -10,6 +10,7 @@ import com.example.learningcurvemvvmrecipeapp.domain.model.Recipe
 import com.example.learningcurvemvvmrecipeapp.interactors.recipe_details.GetRecipe
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe.RecipeEvent.GetRecipeEvent
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.util.DialogQueue
+import com.example.learningcurvemvvmrecipeapp.presentation.util.MyConnectivityManager
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -26,6 +27,7 @@ class RecipeDetailViewModel
 @Inject
 constructor(
     private val getRecipe: GetRecipe,
+    private val myConnectivityManager: MyConnectivityManager,
     @Named("auth_token") private val token: String,
     private val state: SavedStateHandle,
 ): ViewModel() {
@@ -61,7 +63,11 @@ constructor(
     }
 
     private fun getRecipe(id: Int){
-        getRecipe.execute(id, token).onEach { dataState ->
+        getRecipe.execute(
+            recipeId = id,
+            token = token,
+            isNetworkAvailable = myConnectivityManager.isNetworkAvailable.value
+        ).onEach { dataState ->
             loading.value = dataState.loading
 
             dataState.data?.let { data ->

@@ -1,5 +1,6 @@
 package com.example.learningcurvemvvmrecipeapp.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -17,6 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.FoodCategory
+import com.example.learningcurvemvvmrecipeapp.util.TAG
 
 @Composable
 fun SearchAppBar(
@@ -73,7 +75,9 @@ fun SearchAppBar(
                                 end.linkTo(parent.end)
                                 linkTo(top = parent.top, bottom = parent.bottom)
                             },
-                        onClick = onToggleTheme,
+                        onClick = {
+                            onToggleTheme()
+                        },
                     ) {
                         Icon(Icons.Filled.MoreVert, contentDescription = "Toggle Dark/Light Theme")
                     }
@@ -85,7 +89,7 @@ fun SearchAppBar(
                     .padding(start = 8.dp, bottom = 8.dp),
                 state = scrollState,
             ) {
-                items(categories){
+                items(categories) {
                     FoodCategoryChip(
                         category = it.value,
                         isSelected = selectedCategory == it,

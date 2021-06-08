@@ -11,6 +11,7 @@ import com.example.learningcurvemvvmrecipeapp.interactors.recipe_list.RestoreRec
 import com.example.learningcurvemvvmrecipeapp.interactors.recipe_list.SearchRecipes
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.RecipeListEvent.*
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.util.DialogQueue
+import com.example.learningcurvemvvmrecipeapp.presentation.util.MyConnectivityManager
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -33,6 +34,7 @@ class RecipeListViewModel
 constructor(
     private val searchRecipes: SearchRecipes,
     private val restoreRecipes: RestoreRecipes,
+    private val myConnectivityManager: MyConnectivityManager,
     @Named("auth_token") private val token: String,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -124,7 +126,8 @@ constructor(
         searchRecipes.execute(
             token = token,
             page = page.value,
-            query = query.value
+            query = query.value,
+            isNetworkAvailable = myConnectivityManager.isNetworkAvailable.value
         ).onEach { dataState ->
             // loading
             loading.value = dataState.loading
@@ -159,7 +162,8 @@ constructor(
                 searchRecipes.execute(
                     token = token,
                     page = page.value,
-                    query = query.value
+                    query = query.value,
+                    isNetworkAvailable = myConnectivityManager.isNetworkAvailable.value
                 ).onEach { dataState ->
                     // loading
                     loading.value = dataState.loading

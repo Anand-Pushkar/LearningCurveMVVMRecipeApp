@@ -23,7 +23,8 @@ class SearchRecipes(
     fun execute(
         token: String,
         page: Int,
-        query: String
+        query: String,
+        isNetworkAvailable: Boolean,
     ): Flow<DataState<List<Recipe>>> = flow{
 
         try {
@@ -31,19 +32,22 @@ class SearchRecipes(
             // just to show pagination and progress bar, the api is fast
             delay(1000)
 
-            // ("Check if there is internet connection")
-            // #1 get the recipes from network
-            val recipes = getRecipesFromNetwork(
-                token = token,
-                page = page,
-                query = query
-            )
-
-            // #2 insert recipes into cache
-            recipeDao.insertRecipes(entityMapper.fromDomainList(recipes))
+            if (isNetworkAvailable){
+                // #1 get the recipes from network
+                // Convert: NetworkRecipeEntity -> Recipe -> RecipeCacheEntity
+                val recipes = getRecipesFromNetwork(
+                    token = token,
+                    page = page,
+                    query = query
+                )
+                Log.d(TAG, "SearchRecipes execute: Network available:  list size =  ${recipes.size}")
+                // #2 insert recipes into cache
+                recipeDao.insertRecipes(entityMapper.fromDomainList(recipes))
+            }
 
             // query cache
             // #3 query the cache
+            Log.d(TAG, "SearchRecipes execute: query =  $query")
             val cacheResult = if(query.isBlank()){
                 recipeDao.getAllRecipes(
                     pageSize = RECIPE_PAGINATION_PAGE_SIZE,
@@ -56,6 +60,7 @@ class SearchRecipes(
                     page = page
                 )
             }
+            Log.d(TAG, "SearchRecipes execute: list size =  ${cacheResult.size}")
 
             // #4 emit List<Recipe> from the cache
             val list = entityMapper.toDomainList(cacheResult)
