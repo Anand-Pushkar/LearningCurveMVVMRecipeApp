@@ -1,6 +1,5 @@
 package com.example.learningcurvemvvmrecipeapp.datastore
 
-import androidx.compose.runtime.dispatch.AndroidUiDispatcher.Companion.Main
 import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.createDataStore
 import com.example.learningcurvemvvmrecipeapp.presentation.BaseApplication
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch

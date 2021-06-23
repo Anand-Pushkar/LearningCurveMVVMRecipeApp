@@ -1,8 +1,8 @@
 package com.example.learningcurvemvvmrecipeapp.presentation.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,20 +21,21 @@ const val IMAGE_HEIGHT = 260
 fun RecipeView(
     recipe: Recipe,
 ){
-    ScrollableColumn(
+    LazyColumn(
         modifier = Modifier.fillMaxWidth()
     ) {
 
-        /**
-         * TOP RECIPE IMAGE
-         */
-        recipe.featuredImage?.let { url ->
+        item {
+
+            /**
+             * TOP RECIPE IMAGE
+             */
             // load image from url into a variable
             val image = loadPicture(
-                url = url,
+                url = recipe.featuredImage,
                 defaultImage = DEFAULT_RECIPE_IMAGE
             ).value
-            // check if the immage loaded is null or not
+            // check if the image loaded is null or not
             image?.let { img ->
                 // put the image in Image composable
                 Image(
@@ -42,28 +43,26 @@ fun RecipeView(
                     bitmap = img.asImageBitmap(),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .preferredHeight(IMAGE_HEIGHT.dp),
+                        .height(IMAGE_HEIGHT.dp),
                     contentScale = ContentScale.Crop
                 )
             }
-        }
 
-        /**
-         * RECIPE DETAILS
-         */
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-        ) {
-            recipe.title?.let { title ->
+            /**
+             * RECIPE DETAILS
+             */
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+            ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp)
                 ) {
                     Text(
-                        text = title,
+                        text = recipe.title,
                         modifier = Modifier
                             .fillMaxWidth(0.85f)
                             .wrapContentWidth(Alignment.Start),
@@ -79,27 +78,25 @@ fun RecipeView(
                         style = MaterialTheme.typography.h5
                     )
                 }
-            }
-            recipe.publisher?.let { publisher ->
                 val updated = recipe.dateUpdated
                 Text(
-                    text = updated?.let { "Updated on $updated by $publisher" } ?: "By $publisher",
+                    text = "Updated on $updated by ${recipe.publisher}",
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(bottom = 8.dp),
                     style = MaterialTheme.typography.caption
                 )
-            }
-            for(ingredient in recipe.ingredients){
-                Text(
-                    text = ingredient,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    style = MaterialTheme.typography.body1
-                )
-            }
+                for(ingredient in recipe.ingredients){
+                    Text(
+                        text = ingredient,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp),
+                        style = MaterialTheme.typography.body1
+                    )
+                }
 
+            }
         }
 
 

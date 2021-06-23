@@ -13,6 +13,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'de.mannodermaus.android-junit5'
 }
 
 android {
@@ -57,6 +58,9 @@ android {
         exclude "META-INF/AL2.0"
         exclude "META-INF/LGPL2.1"
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -74,6 +78,8 @@ dependencies {
     implementation AndroidX.compose_material
     implementation AndroidX.compose_icons_core
     implementation AndroidX.compose_icons_extended
+    implementation AndroidX.compose_constraint
+    implementation AndroidX.activity_compose
     implementation AndroidX.navigation_compose
     implementation AndroidX.navigation_hilt
     implementation AndroidX.room_runtime

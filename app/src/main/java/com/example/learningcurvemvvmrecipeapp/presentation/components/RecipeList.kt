@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.learningcurvemvvmrecipeapp.R
 import com.example.learningcurvemvvmrecipeapp.domain.model.Recipe
+import com.example.learningcurvemvvmrecipeapp.presentation.components.util.NothingHere
 import com.example.learningcurvemvvmrecipeapp.presentation.components.util.SnackbarController
 import com.example.learningcurvemvvmrecipeapp.presentation.navigation.Screen
 import com.example.learningcurvemvvmrecipeapp.presentation.ui.recipe_list.PAGE_SIZE
@@ -46,7 +47,7 @@ fun RecipeList(
             LoadingRecipeListShimmer(imageHeight = 250.dp, repetition = 5)
         }
         else if(recipes.isEmpty()){
-            //NothingHere()
+            NothingHere()
         }
         else {
             LazyColumn {

@@ -5,6 +5,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.fragment.findNavController
 import com.example.learningcurvemvvmrecipeapp.presentation.components.RecipeList
 import com.example.learningcurvemvvmrecipeapp.presentation.components.SearchAppBar
@@ -12,6 +13,7 @@ import com.example.learningcurvemvvmrecipeapp.presentation.theme.AppTheme
 import com.example.learningcurvemvvmrecipeapp.util.TAG
 import kotlinx.coroutines.launch
 
+@ExperimentalComposeUiApi
 @ExperimentalMaterialApi
 @Composable
 fun RecipeListScreen(

@@ -20,7 +20,7 @@ fun DefaultSnackbar(
         snackbar = { snackbarData ->
             Snackbar(
                 modifier = Modifier.padding(16.dp),
-                text = {
+                content = {
                     Text(
                         text = snackbarData.message,
                         style = MaterialTheme.typography.body2,
