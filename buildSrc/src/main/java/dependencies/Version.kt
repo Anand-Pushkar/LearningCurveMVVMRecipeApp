@@ -9,8 +9,8 @@ object Version{
     const val jvmTarget = "1.8"
 
     const val kotlin = "1.4.30"
-    const val gradle = "7.0.0-alpha09"
-    const val hilt = "2.33-beta"
+    const val gradle = "7.1.0-alpha02"
+    const val hilt = "2.37"
     const val junit5 = "1.7.1.1"
     const val kotlin_compiler_extension = "1.0.0-beta01"
 

@@ -2,7 +2,7 @@ package com.example.learningcurvemvvmrecipeapp.domain.model
 
 import java.util.*
 
-// core buisness model, every field is very important
+// core business model, every field is very important
 data class Recipe(
     val id: Int, // should not be null
     val title: String,
