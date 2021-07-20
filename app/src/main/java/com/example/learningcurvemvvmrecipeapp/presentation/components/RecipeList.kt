@@ -68,6 +68,5 @@ fun RecipeList(
                 }
             }
         }
-
     }
 }

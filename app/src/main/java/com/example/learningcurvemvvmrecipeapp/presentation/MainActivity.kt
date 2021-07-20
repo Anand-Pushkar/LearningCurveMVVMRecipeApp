@@ -65,10 +65,10 @@ class MainActivity : AppCompatActivity() {
                         isDarkTheme = settingsDataStore.isDark.value,
                         isNetworkAvailable = myConnectivityManager.isNetworkAvailable.value,
                         onToggleTheme = settingsDataStore::toggleTheme,
-                        onNavigateToRecipeDetailScreen = navController::navigate,
-//                        {
-//                            navController.navigate(it)
-//                        },
+                        //onNavigateToRecipeDetailScreen = navController::navigate,
+                        onNavigateToRecipeDetailScreen = {
+                            navController.navigate(it)
+                        },
                         viewModel = viewModel
                     )
                 }
