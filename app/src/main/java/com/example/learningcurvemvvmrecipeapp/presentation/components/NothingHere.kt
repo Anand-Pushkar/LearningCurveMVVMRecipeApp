@@ -1,4 +1,4 @@
-package com.example.learningcurvemvvmrecipeapp.presentation.components.util
+package com.example.learningcurvemvvmrecipeapp.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme

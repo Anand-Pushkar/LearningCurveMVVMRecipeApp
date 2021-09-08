@@ -33,7 +33,7 @@ fun RecipeCard(
         elevation = 8.dp,
     ) {
         Column {
-            recipe.featuredImage?.let { url ->
+            recipe.featuredImage.let { url ->
                 val image = loadPicture(url = url, defaultImage = DEFAULT_RECIPE_IMAGE).value
 
                 image?.let { img ->
@@ -48,7 +48,7 @@ fun RecipeCard(
                 }
             }
 
-            recipe.title?.let { title ->
+            recipe.title.let { title ->
                 Row (
                     modifier = Modifier
                         .fillMaxWidth()

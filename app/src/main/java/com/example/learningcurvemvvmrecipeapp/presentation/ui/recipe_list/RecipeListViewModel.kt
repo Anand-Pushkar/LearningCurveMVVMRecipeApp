@@ -32,8 +32,8 @@ const val STATE_KEY_SELECTED_CATEGORY = "recipe.state.query.selected_category"
 class RecipeListViewModel
 @Inject
 constructor(
-    private val searchRecipes: SearchRecipes,
-    private val restoreRecipes: RestoreRecipes,
+    private val searchRecipes: SearchRecipes, // interactors
+    private val restoreRecipes: RestoreRecipes, // interactors
     private val myConnectivityManager: MyConnectivityManager,
     @Named("auth_token") private val token: String,
     private val savedStateHandle: SavedStateHandle,
